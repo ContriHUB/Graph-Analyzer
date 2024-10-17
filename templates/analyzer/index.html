@@ -1,19 +1,41 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static "style.css" %}">
 </head>
 <body>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
-    <h2>Graph Analysis Results</h2>
-    <p>Minima: {{ minima }}</p>
-    <p>Maxima: {{ maxima }}</p>
+    <header>
+        <nav>
+            <div class="logo">Graph Analyzer</div>
+
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="container">
+                <h2>Graph Analyzer</h2>
+                <hr>
+                {% if request.method == 'POST' %}
+                <h2  class='result'>Graph Analysis Results</h2>
+                <p class='max'>Minima: {{ minima }}</p>
+                <p class='min'>Maxima: {{ maxima }}</p>
+                {% else %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit">
+                </form>
+                {% endif %}
+            </div>
+
+        </section>
+    </main>
+
 
 </body>
 </html>
