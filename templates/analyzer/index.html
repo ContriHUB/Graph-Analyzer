@@ -1,19 +1,78 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
-    <h2>Graph Analysis Results</h2>
-    <p>Minima: {{ minima }}</p>
-    <p>Maxima: {{ maxima }}</p>
+  <head>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'images/favicon.ico' %}"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graph Analyzer</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  </head>
+  <body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+      <button id="themeToggle">Light Theme</button>
+    </div>
 
-</body>
+    <!-- Main Container -->
+    <div class="container">
+      <h1>Graph Analyzer</h1>
+      <form method="post" enctype="multipart/form-data" class="responsive-form">
+        {% csrf_token %}
+
+        <label for="{{ form.image.id_for_label }}" style="color: black"
+          >Image:</label
+        >
+        {{ form.image }}
+        <!-- This line includes the image input field -->
+
+        <input type="submit" value="Analyze" class="submit-button" />
+      </form>
+
+      <h2 style="color: #008080">Graph Analysis Results</h2>
+      <p><strong style="color: #ff7f50">Minima:</strong> {{ minima }}</p>
+      <p><strong style="color: #ff7f50">Maxima:</strong> {{ maxima }}</p>
+    </div>
+
+    <div class="footer">
+      <div class="scrolling-text">
+        <a
+          href="https://github.com/ContriHUB/Graph-Analyzer"
+          style="color: white; text-decoration: none"
+        >
+          MIT License | Copyright © 2024 Nandika Agrawal |
+          <img
+            src="{% static 'images/github-logo.png' %}"
+            alt="GitHub Logo"
+            style="
+              width: 16px;
+              height: 16px;
+              vertical-align: middle;
+              margin: 0 5px;
+            "
+          />
+          ContriHUB/Graph-Analyzer
+        </a>
+      </div>
+    </div>
+
+    <!-- JavaScript code -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Theme Switcher
+        const themeToggle = document.getElementById("themeToggle");
+
+        themeToggle.addEventListener("click", function () {
+          document.body.classList.toggle("light");
+          themeToggle.textContent = document.body.classList.contains("light")
+            ? "Dark Theme"
+            : "Light Theme";
+        });
+      });
+    </script>
+  </body>
 </html>
