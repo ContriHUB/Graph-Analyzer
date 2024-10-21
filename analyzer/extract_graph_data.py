@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from scipy import stats
 
 def extract_graph_data(image_path):
     # Read the image
@@ -27,3 +28,21 @@ def analyze_data(data_points):
     minima = np.argmin(data_points, axis=0)
 
     return minima, maxima
+
+def predict_next_points(data_points, num_predictions=5):
+    # Convert data points to a time series (assuming equal time intervals)
+    x = np.arange(len(data_points))
+    y = data_points[:, 1]  # Assuming y-coordinates represent the data values
+
+    # Perform linear regression
+    slope, intercept, _, _, _ = stats.linregress(x, y)
+
+    # Predict next points
+    last_x = len(data_points)
+    predicted_points = []
+    for i in range(num_predictions):
+        next_x = last_x + i + 1
+        next_y = slope * next_x + intercept
+        predicted_points.append((next_x, next_y))
+
+    return predicted_points

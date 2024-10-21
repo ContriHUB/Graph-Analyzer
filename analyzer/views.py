@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import GraphUploadForm
-from .extract_graph_data import extract_graph_data, analyze_data
+from .extract_graph_data import extract_graph_data, analyze_data, predict_next_points
 import os
 from graph_analyzer.settings import BASE_DIR
 
@@ -19,13 +19,14 @@ def upload_image(request):
             # Process image and get graph data
             data_points = extract_graph_data(image_path)
             minima, maxima = analyze_data(data_points)
+            predicted_points = predict_next_points(data_points)
 
             context = {
                 'minima': minima,
-                'maxima': maxima
+                'maxima': maxima,
+                'predicted_points': predicted_points
             }
             return render(request, 'analyzer/index.html', context)
     else:
         form = GraphUploadForm()
     return render(request, 'analyzer/index.html', {'form': form})
-
