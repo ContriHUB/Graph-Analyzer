@@ -1,71 +1,27 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graph Analyzer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/graph_analyzer_styles.css' %}">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Graph Analyzer</h1>
-        </div>
-    </header>
-
-    <main class="container">
-        <section class="form-section">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="file-input-wrapper">
-                    <label for="{{ form.image.id_for_label }}">Choose an image file:</label>
-                    <span class="btn">Select File</span>
-                    {{ form.image }}
-                    <span class="file-name">No file chosen</span>
-                </div>
-                <button type="submit" class="submit-btn">Upload and Analyze</button>
-            </form>
-        </section>
-
-        {% if minima is not None and maxima is not None %}
-            <section class="results">
-                <h2>Graph Analysis Results</h2>
-                <div class="result-detail">
-                    <p><span class="result-label">Minima:</span> {{ minima }}</p>
-                    <p><span class="result-label">Maxima:</span> {{ maxima }}</p>
-                </div>
-            </section>
-        {% endif %}
-
-        {% if predicted_points %}
-            <section class="results">
-                <h2>Predicted Next 5 Points</h2>
-                <ul class="predicted-points">
-                    {% for point in predicted_points %}
-                        <li>
-                            <span class="result-label">Point {{ forloop.counter }}:</span>
-                            <span>X: {{ point.0 }},</span>
-                            <span>Y: {{ point.1|floatformat:2 }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
-        {% endif %}
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Graph Analyzer. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
-            var fileName = e.target.files[0].name;
-            document.querySelector('.file-name').textContent = fileName;
-        });
-    </script>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+    <h2>Graph Analysis Results</h2>
+    <p>Minima: {{ minima }}</p>
+    <p>Maxima: {{ maxima }}</p>
+    
+    {% if predicted_points %}
+        <h3>5 Points Prediction</h3>
+        <ul>
+            {% for point in predicted_points %}
+                <li>Point {{ forloop.counter }}: X: {{ point.0 }}, Y: {{ point.1|floatformat:2 }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>

@@ -39,15 +39,6 @@ pip install -r requirements.txt
 ```bash
 python manage.py migrate
 ```
-###Create Secret Key
-
-In python terminal, run this command to create `SECRET_KEY`
-```bash
-import secrets
-print(secrets.token_urlsafe(50))
-```
-Create a `.env` file add the key :
-SECRET_KEY = 'Your-secret-key'
 
 ### Run the Development Server
 
