@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Graph Analyzer</title>
 </head>
 <body>
     <form method="post" enctype="multipart/form-data">
@@ -11,9 +11,44 @@
         {{ form.as_p }}
         <input type="submit" value="Submit">
     </form>
+    
     <h2>Graph Analysis Results</h2>
     <p>Minima: {{ minima }}</p>
     <p>Maxima: {{ maxima }}</p>
+    
+    {% if predicted_points %}
+        <h3>5 Points Prediction</h3>
+        <ul>
+            {% for point in predicted_points %}
+                <li>Point {{ forloop.counter }}: X: {{ point.0 }}, Y: {{ point.1|floatformat:2 }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% if trend %}
+        <h3>Trend Analysis</h3>
+        <p>Slope: {{ trend.slope }}</p>
+        <p>Intercept: {{ trend.intercept }}</p>
+    {% endif %}
 
+    {% if inflection_points %}
+        <h3>Inflection Points</h3>
+        <ul>
+            {% for point in inflection_points %}
+                <li>{{ point }}</li>
+            {% endfor %}
+        </ul>
+        <p>Showing first 10 inflection points.</p>
+    {% endif %}
+
+    {% if derivatives %}
+        <h3>Derivatives</h3>
+        <ul>
+            {% for derivative in derivatives %}
+                <li>{{ forloop.counter }}: {{ derivative|floatformat:2 }}</li>
+            {% endfor %}
+        </ul>
+        <p>Showing first 10 derivatives.</p>
+    {% endif %}
 </body>
 </html>
