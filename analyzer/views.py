@@ -9,7 +9,7 @@ import numpy as np
 from graph_analyzer.settings import BASE_DIR
 
 def upload_image(request):
-    MAX_DISPLAY = 10  # Limit the number of items displayed
+    MAX_DISPLAY = 10  
 
     if request.method == "POST":
         form = GraphUploadForm(request.POST, request.FILES)
@@ -22,17 +22,14 @@ def upload_image(request):
             with open(image_path, "wb") as f:
                 f.write(file.read())
 
-            # Process image and get graph data
             data_points = extract_graph_data(image_path)
             minima, maxima = analyze_data(data_points)
             predicted_points = predict_next_points(data_points)
 
-            # Additional analysis
             slope, intercept = trend_analysis(data_points)
             inflection_points = find_inflection_points(data_points)
             derivatives = calculate_derivatives(data_points)
 
-            # Convert NumPy arrays to lists and limit the number of points for display
             context = {
                 'minima': minima.tolist() if isinstance(minima, np.ndarray) else minima,
                 'maxima': maxima.tolist() if isinstance(maxima, np.ndarray) else maxima,
